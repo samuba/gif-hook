@@ -1,17 +1,17 @@
-var express = require('express');
-var bodyParser = require('body-parser')
-var request = require('request-promise');
+let express = require('express')
+let bodyParser = require('body-parser')
+let request = require('request-promise')
 
-var app = express();
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+let app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
-const URL_PLACEHOLDER = "-#TheGif#-"
+const notFoundMsg = "...sorry. I couldn't find a GIF for that :-("
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-});
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + '/views/index.html')
+})
 
 app.post("/mattermost/webhook", (req, res) => {
   // TODO: check if token is: process.env.MATTERMOST_TOKEN
@@ -20,7 +20,7 @@ app.post("/mattermost/webhook", (req, res) => {
   
   handleRequest(phrase, 
     gifUrl => res.send({ text: gifUrl }),
-    () => res.send({ text: "...sorry. I can't come up with a GIF for that :-(" }),
+    () => res.send({ text: notFoundMsg }),
     error => res.send(500)
   )
 })
@@ -38,10 +38,7 @@ app.post("/mattermost/slashcommand", (req, res) => {
       username: req.body.user_name,
       icon_url: `https://matter.mercedes-benz.com/api/v3/users/{req.body.user_id}/image`
     }),
-    () => res.send({
-      response_type: "ephemeral",
-      text: "...sorry. I couldn't find a GIF for that :-(",
-    }),
+    () => res.send({ text: notFoundMsg, response_type: "ephemeral"  }),
     error => res.send(500)
   )
 })
@@ -73,7 +70,7 @@ function fetchGifsFromGiphy(phrase, errorFunc, func) {
   }).catch(err => {
     console.error("Error while querying giphy", err)
     errorFunc(err)
-  });
+  })
 }
 
 function pickRandom(array) {
