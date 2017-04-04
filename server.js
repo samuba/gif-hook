@@ -33,7 +33,7 @@ app.post("/mattermost/slashcommand", (req, res) => {
   handleRequest(phrase, 
     gifUrl => res.send({
       response_type: "in_channel",
-      text: `${req.body.user_name}: /gif ${req.body.text} \n ${gifUrl}`,
+      text: `/gif ${req.body.text} \n ![embedded image](${gifUrl})`,
       // the following params are disabled by admins right now 
       username: req.body.user_name,
       icon_url: `https://matter.mercedes-benz.com/api/v3/users/{req.body.user_id}/image`
