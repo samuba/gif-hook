@@ -33,7 +33,7 @@ app.post("/mattermost/slashcommand", (req, res) => {
   handleRequest(phrase, 
     gifUrl => res.send({
       response_type: "in_channel",
-      text: `/gif ${req.body.text} \n ![embedded image](${gifUrl})`,
+      text: `/gif **${req.body.text}**  ${gifUrl}`,
       username: req.body.user_name,
       icon_url: `https://matter.mercedes-benz.com/api/v3/users/${req.body.user_id}/image`,
     }),
