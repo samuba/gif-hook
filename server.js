@@ -36,7 +36,7 @@ app.post("/mattermost/slashcommand", (req, res) => {
       text: `/gif ${req.body.text} \n ![embedded image](${gifUrl})`,
       // the following params are disabled by admins right now 
       username: req.body.user_name,
-      icon_url: `https://matter.mercedes-benz.com/api/v3/users/{req.body.user_id}/image`
+      icon_url: `https://matter.mercedes-benz.com/api/v3/users/${req.body.user_id}/image`
     }),
     () => res.send({ text: notFoundMsg, response_type: "ephemeral"  }),
     error => res.send(500)
