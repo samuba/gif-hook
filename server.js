@@ -10,7 +10,7 @@ app.use(express.static('public'))
 const notFoundMsg = "...sorry. I couldn't find a GIF for that :-("
 
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + '/views/index.html')
+  response.sendFile(__dirname + '/index.html')
 })
 
 app.post("/mattermost/webhook", (req, res) => {
