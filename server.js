@@ -27,15 +27,18 @@ app.post("/mattermost/webhook", (req, res) => {
 
 app.post("/mattermost/slashcommand", (req, res) => {
   // TODO: check if token is: process.env.MATTERMOST_TOKEN
+  console.log("slash")
   console.log("req", req.body)
-  let phrase = req.body.text
+  
+  const phrase = req.body.text
+  const mattermostServerUrl = req.body.response_url.split("/hooks/")[0]
   
   handleRequest(phrase, 
     gifUrl => res.send({
       response_type: "in_channel",
       text: `/gif **${req.body.text}**  ${gifUrl}`,
       username: req.body.user_name,
-      icon_url: `https://matter.mercedes-benz.com/api/v3/users/${req.body.user_id}/image`,
+      icon_url: `${mattermostServerUrl}/api/v4/users/${req.body.user_id}/image`,
     }),
     () => res.send({ 
       text: notFoundMsg, 
